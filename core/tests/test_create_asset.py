@@ -1,14 +1,8 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase
 
-from . import admin_data
+from . import admin_data, asset_data
 from core.models import User
-
-asset_data = {
-    'name': 'US Dollar',
-    'symbol': 'USD',
-    'type': 'currency'
-}
 
 
 class TestAssetCreate(APITestCase):

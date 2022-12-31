@@ -1,6 +1,3 @@
-import requests
-from django.urls import reverse
-
 user_data = {
     'email': 'test@mail.com',
     'password': 'simbaLion228',
@@ -15,17 +12,14 @@ admin_data = {
     'last_name': 'admin'
 }
 
-base_url = 'http://127.0.0.1:8000'
+asset_data = {
+    'name': 'US Dollar',
+    'symbol': 'USD',
+    'type': 'currency'
+}
 
-
-def get_jwt_token(email: str, password: str) -> dict:
-    response = requests.request(
-        'POST',
-        url=base_url + reverse('token_obtain_pair'),
-        data={
-            'email': email,
-            'password': password
-        }
-    )
-    print(response.json())
-    return response.json()
+asset_data2 = {
+    'name': 'Euro',
+    'symbol': 'EUR',
+    'type': 'currency'
+}
