@@ -35,6 +35,14 @@ class AssetPairSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(
+        default=serializers.CurrentUserDefault(),
+        queryset=models.User.objects.all()
+    )
+    asset_pair = serializers.PrimaryKeyRelatedField(
+        queryset=models.AssetPair.objects.all()
+    )
+
     class Meta:
         model = models.Order
         fields = '__all__'
