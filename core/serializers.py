@@ -21,13 +21,12 @@ class AssetSerializer(serializers.ModelSerializer):
 
 
 class AssetPairSerializer(serializers.ModelSerializer):
-
-    def create(self, validated_data):
-        asset_pair = super().create(validated_data)
-        quote = models.Quote.objects.create(asset_pair=asset_pair)
-        quote.save()
-        quote.update_quote()
-        return asset_pair
+    base_asset = serializers.PrimaryKeyRelatedField(
+        queryset=models.Asset.objects.all()
+    )
+    quote_asset = serializers.PrimaryKeyRelatedField(
+        queryset=models.Asset.objects.all()
+    )
 
     class Meta:
         model = models.AssetPair

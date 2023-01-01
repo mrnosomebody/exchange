@@ -63,8 +63,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Asset(models.Model):
-    name = models.CharField(max_length=55)
-    symbol = models.CharField(max_length=10)
+    name = models.CharField(max_length=55, unique=True)
+    symbol = models.CharField(max_length=10, unique=True)
     type = models.CharField(max_length=55)  # "stock", "currency", "crypto"
 
 
@@ -111,16 +111,3 @@ class Order(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
-
-
-class Quote(models.Model):
-    asset_pair = models.OneToOneField(
-        AssetPair,
-        related_name='quote',
-        on_delete=models.CASCADE
-    )
-    bid_price = models.DecimalField(max_digits=10, decimal_places=2)
-    ask_price = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def update_quote(self):
-        ...
