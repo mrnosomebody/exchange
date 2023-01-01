@@ -16,7 +16,6 @@ class TestJWTAuth(APITestCase):
 
     def test_jwt_auth(self):
         order_data = {
-            'user': self.user.id,
             'asset_pair': self.asset_pair.id,
             'order_type': 'buy',
             'price': '10',
@@ -34,14 +33,13 @@ class TestJWTAuth(APITestCase):
         self.assertEqual(response.status_code, 401)
 
         # test authenticated
-        tokens = self.client.post(
+        access = self.client.post(
             path=self.url,
             data={
                 'email': 'test@mail.com',
                 'password': 'simbaLion228'
             }
-        ).json()
-        access = tokens.get('access')
+        ).json().get('access')
 
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {access}')
         response = self.client.post(
