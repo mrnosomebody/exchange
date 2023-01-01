@@ -8,7 +8,7 @@ from core.models import User, Asset, AssetPair
 class TestJWTAuth(APITestCase):
     def setUp(self) -> None:
         self.url = reverse('token_obtain_pair')
-        self.auth_required_url = reverse('order_create')
+        self.auth_required_url = reverse('order-list')
         self.user = User.objects.create_user(**user_data)
         asset1 = Asset.objects.create(**asset_data)
         asset2 = Asset.objects.create(**asset_data2)
