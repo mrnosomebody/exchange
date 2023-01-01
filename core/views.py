@@ -1,16 +1,20 @@
 from rest_framework import permissions
 from rest_framework.generics import CreateAPIView
+from rest_framework.viewsets import ModelViewSet
 
 from core import serializers
+from core.models import Order
+from core.permissions import OwnerOrAdminPermission
 
 
 class UserCreateAPIView(CreateAPIView):
     serializer_class = serializers.UserSerializer
 
 
-class OrderCreateAPIView(CreateAPIView):
+class OrderViewSet(ModelViewSet):
     serializer_class = serializers.OrderSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Order.objects.all()
+    permission_classes = (permissions.IsAuthenticated, OwnerOrAdminPermission)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

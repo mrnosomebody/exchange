@@ -106,7 +106,11 @@ class Order(models.Model):
         User,
         on_delete=models.PROTECT
     )
-    asset_pair = models.ForeignKey(AssetPair, on_delete=models.PROTECT)
+    asset_pair = models.ForeignKey(
+        AssetPair,
+        related_name='asset_pair',
+        on_delete=models.PROTECT
+    )
     order_type = models.CharField(max_length=10, choices=ORDER_TYPE_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField()
