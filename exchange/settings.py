@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # libs
+    'channels',
     'rest_framework',
 
     # apps
@@ -58,6 +59,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'exchange.wsgi.application'
+ASGI_APPLICATION = 'exchange.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 DATABASES = {
     'default': {

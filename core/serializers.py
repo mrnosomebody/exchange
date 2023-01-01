@@ -45,3 +45,19 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Order
         fields = '__all__'
+
+
+class TradeSerializer(serializers.ModelSerializer):
+    buyer = serializers.PrimaryKeyRelatedField(
+        queryset=models.User.objects.all()
+    )
+    seller = serializers.PrimaryKeyRelatedField(
+        queryset=models.User.objects.all()
+    )
+    asset_pair = serializers.PrimaryKeyRelatedField(
+        queryset=models.AssetPair.objects.all()
+    )
+
+    class Meta:
+        model = models.Trade
+        fields = '__all__'
