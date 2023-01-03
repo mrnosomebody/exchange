@@ -5,11 +5,11 @@ from core import views
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
+router.register('assets', views.AssetViewSet)
+router.register('asset-pairs', views.AssetPairViewSet)
 router.register('orders', views.OrderViewSet)
+router.register('trades', views.TradeViewSet)
+router.register('users', views.UserViewSet)
 
-urlpatterns = [
-    path('assetpairs/create/', views.AssetPairCreateAPIView.as_view(), name='asset_pair_create'),
-    path('assets/create/', views.AssetCreateAPIView.as_view(), name='asset_create'),
-    path('users/create/', views.UserCreateAPIView.as_view(), name='user_create'),
-]
+urlpatterns = []
 urlpatterns += router.urls
