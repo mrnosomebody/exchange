@@ -49,7 +49,7 @@ class AssetViewSet(BaseAdminViewSet):
 
 
 class AssetPairViewSet(BaseAdminViewSet):
-    queryset = AssetPair.objects.all()
+    queryset = AssetPair.objects.select_related('base_asset')
     serializer_class = serializers.AssetPairSerializer
 
 
