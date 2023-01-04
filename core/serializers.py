@@ -21,12 +21,8 @@ class AssetSerializer(serializers.ModelSerializer):
 
 
 class AssetPairSerializer(serializers.ModelSerializer):
-    base_asset = serializers.PrimaryKeyRelatedField(
-        queryset=models.Asset.objects.all()
-    )
-    quote_asset = serializers.PrimaryKeyRelatedField(
-        queryset=models.Asset.objects.all()
-    )
+    base_asset = AssetSerializer(read_only=True)
+    quote_asset = AssetSerializer(read_only=True)
 
     class Meta:
         model = models.AssetPair

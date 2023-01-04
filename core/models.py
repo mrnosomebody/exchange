@@ -67,6 +67,9 @@ class Asset(models.Model):
     symbol = models.CharField(max_length=10, unique=True)
     type = models.CharField(max_length=55)  # "stock", "currency", "crypto"
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class AssetPair(models.Model):
     base_asset = models.ForeignKey(
@@ -79,6 +82,9 @@ class AssetPair(models.Model):
         related_name='quote_asset',
         on_delete=models.PROTECT
     )
+
+    def __str__(self):
+        return f'{self.base_asset.name}/{self.quote_asset.name}'
 
     class Meta:
         constraints = [
