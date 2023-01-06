@@ -1,4 +1,4 @@
-import React, {Component} from "react"
+import React, {Component, useState, useEffect} from "react"
 
 class App extends Component {
     constructor(props) {
@@ -20,11 +20,11 @@ class App extends Component {
         };
     }
 
+
     async componentDidMount() {
         try {
             const res = await fetch('http://localhost:8000/api/asset-pairs/');
             const assetPairs = await res.json();
-            console.log(assetPairs)
             this.setState({
                 assetPairs
             });
@@ -52,6 +52,7 @@ class App extends Component {
                             <ul className="list-group list-group-flush">
                                 {this.renderItems()}
                             </ul>
+                            <MyComponent />
                         </div>
                     </div>
                 </div>
@@ -61,3 +62,35 @@ class App extends Component {
 }
 
 export default App;
+
+function MyComponent()
+{
+    const [socket, setSocket] = useState(null);
+
+    useEffect(() => {
+        // Connect to the websocket server
+        const ws = new WebSocket('ws://localhost:8000/ws/orders/');
+
+        // Set up event handlers for the websocket events
+        ws.onopen = () => {
+            console.log('Websocket connection opened');
+        };
+        ws.onclose = () => {
+            console.log('Websocket connection closed');
+        };
+        ws.onmessage = event => {
+            let data = JSON.parse(event.data)
+            console.log(data)
+        };
+        ws.onerror = error => {
+            console.log(`Websocket error: ${error}`);
+        };
+
+        // Save the websocket object in state so we can use it later
+        setSocket(ws);
+
+        return () => {
+            ws.close()
+        }
+    }, [])
+}
