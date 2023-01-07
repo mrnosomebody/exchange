@@ -86,6 +86,10 @@ class AssetPair(models.Model):
     def __str__(self):
         return f'{self.base_asset.name}/{self.quote_asset.name}'
 
+    @property
+    def name(self):
+        return f'{self.base_asset.name}/{self.quote_asset.name}'
+
     class Meta:
         constraints = [
             models.UniqueConstraint(

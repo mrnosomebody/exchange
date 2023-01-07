@@ -1,3 +1,4 @@
+import requests
 from rest_framework import status, permissions
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -49,7 +50,7 @@ class AssetViewSet(BaseAdminViewSet):
 
 
 class AssetPairViewSet(BaseAdminViewSet):
-    queryset = AssetPair.objects.select_related('base_asset')
+    queryset = AssetPair.objects.select_related('base_asset', 'quote_asset')
     serializer_class = serializers.AssetPairSerializer
 
 
