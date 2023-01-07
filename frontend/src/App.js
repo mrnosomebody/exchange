@@ -1,9 +1,30 @@
 import React, {Component, useState, useEffect} from "react"
+import {AuthContext, refreshAccessToken} from './context/AuthContext';
+import {Routes, Route, Router} from 'react-router-dom';
+import axios from "axios";
+
+import LoginForm from './components/LoginForm';
+import AssetPairList from "./components/AssetPairList";
+import AssetPairPage from "./components/AssetPairPage"
+
+axios.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response.status === 401) {
+            refreshAccessToken();
+            const config = error.config;
+            config.headers['Authorization'] = `Bearer ${localStorage.getItem('accessToken')}`;
+            return axios(config);
+        }
+        return Promise.reject(error);
+    }
+);
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isAuthenticated: false,
             activeItem: {
                 base_asset: {
                     name: '',
@@ -20,77 +41,33 @@ class App extends Component {
         };
     }
 
-
-    async componentDidMount() {
-        try {
-            const res = await fetch('http://localhost:8000/api/asset-pairs/');
-            const assetPairs = await res.json();
-            this.setState({
-                assetPairs
-            });
-        } catch (e) {
-            console.log(e);
-        }
+    setIsAuthenticated = (isAuthenticated) => {
+        this.setState({isAuthenticated});
     }
 
-    renderItems = () => {
-        return this.state.assetPairs.map(item => (
-                <div>
-                    <span>{item.base_asset.name}/{item.quote_asset.name}</span>
-                    <h1>{item.base_asset.symbol}/{item.quote_asset.symbol}</h1>
-                </div>
-            )
-        );
-    };
-
     render() {
+        const {isAuthenticated} = this.state;
         return (
             <main className="content">
                 <div className="row">
                     <div className="col-md-6 col-sm-10 mx-auto p-0">
                         <div className="card p-3">
-                            <ul className="list-group list-group-flush">
-                                {this.renderItems()}
-                            </ul>
-                            <MyComponent />
+                            <AssetPairList/>
+                            {/*<Router>*/}
+                            {/*    <Routes>*/}
+                            {/*        <Route path='/contact' element={<AssetPairPage/>}/>*/}
+                            {/*    </Routes>*/}
+                            {/*</Router>*/}
+
+
                         </div>
                     </div>
                 </div>
             </main>
+
         )
     }
 }
 
 export default App;
 
-function MyComponent()
-{
-    const [socket, setSocket] = useState(null);
-
-    useEffect(() => {
-        // Connect to the websocket server
-        const ws = new WebSocket('ws://localhost:8000/ws/orders/');
-
-        // Set up event handlers for the websocket events
-        ws.onopen = () => {
-            console.log('Websocket connection opened');
-        };
-        ws.onclose = () => {
-            console.log('Websocket connection closed');
-        };
-        ws.onmessage = event => {
-            let data = JSON.parse(event.data)
-            console.log(data)
-        };
-        ws.onerror = error => {
-            console.log(`Websocket error: ${error}`);
-        };
-
-        // Save the websocket object in state so we can use it later
-        setSocket(ws);
-
-        return () => {
-            ws.close()
-        }
-    }, [])
-}

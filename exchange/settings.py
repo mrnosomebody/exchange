@@ -1,3 +1,4 @@
+import datetime
 import os
 from pathlib import Path
 
@@ -14,7 +15,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
+    'daphne',
+    'corsheaders',
     'channels',
+
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -24,12 +28,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # libs
-    'corsheaders',
 
     'rest_framework',
 
     # apps
     'core',
+    'websockets',
 ]
 
 CORS_ORIGIN_WHITELIST = [
@@ -69,14 +73,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'exchange.wsgi.application'
 ASGI_APPLICATION = 'exchange.asgi.application'
 
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [('127.0.0.1', 6379)],
-#         },
-#     },
-# }
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 DATABASES = {
     'default': {
@@ -125,6 +130,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
     'SIGNING_KEY': SECRET_KEY
 }
 
