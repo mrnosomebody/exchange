@@ -1,72 +1,56 @@
-import React, {Component, useState, useEffect} from "react"
-import {AuthContext, refreshAccessToken} from './context/AuthContext';
-import {Routes, Route, Router} from 'react-router-dom';
-import axios from "axios";
+import React, {useState, useEffect, useRef} from "react"
 
-import LoginForm from './components/LoginForm';
-import AssetPairList from "./components/AssetPairList";
-import AssetPairPage from "./components/AssetPairPage"
+import AssetPairsList from "./components/AssetPairsList";
+import DefaultInput from "./components/UI/input/DefaultInput";
+import DefaultButton from "./components/UI/button/DefaultButton";
 
-axios.interceptors.response.use(
-    response => response,
-    error => {
-        if (error.response.status === 401) {
-            refreshAccessToken();
-            const config = error.config;
-            config.headers['Authorization'] = `Bearer ${localStorage.getItem('accessToken')}`;
-            return axios(config);
+const App = function () {
+    const [orders, setOrders] = useState([])
+
+    useEffect(() => {
+        const ws = new WebSocket("ws://" + 'localhost:8002' + "/ws/orders/");
+
+        ws.onmessage = (e) => {
+            const data = JSON.parse(e.data)
+            setOrders(data)
         }
-        return Promise.reject(error);
-    }
-);
+    })
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isAuthenticated: false,
-            activeItem: {
-                base_asset: {
-                    name: '',
-                    symbol: '',
-                    type: ''
-                },
-                quote_asset: {
-                    name: '',
-                    symbol: '',
-                    type: ''
-                }
-            },
-            assetPairs: []
-        };
+    const orderPriceInputRef = useRef()
+    const orderQuantityInputRef = useRef()
+
+    const createOrder = (e) => {
+        e.preventDefault()
+        console.log(orderPriceInputRef.current.value)
+        console.log(orderQuantityInputRef.current.value)
+
+        // this.ws.send(JSON.stringify({
+        //     'user': 1,
+        //     'asset_pair': 1,
+        //     'order_type': 'buy',
+        //     'price': 555,
+        //     'quantity': 222,
+        //     'status': 'pending'
+        // }));
     }
 
-    setIsAuthenticated = (isAuthenticated) => {
-        this.setState({isAuthenticated});
-    }
+    return (
+        <div className="App">
+            <DefaultInput
+                ref={orderPriceInputRef}
+                type="text"
+                placeholder="price"
+            />
+            <DefaultInput
+                ref={orderQuantityInputRef}
+                type="text"
+                placeholder="quantity"
+            />
+            <DefaultButton onClick={createOrder}>Bum</DefaultButton>
 
-    render() {
-        const {isAuthenticated} = this.state;
-        return (
-            <main className="content">
-                <div className="row">
-                    <div className="col-md-6 col-sm-10 mx-auto p-0">
-                        <div className="card p-3">
-                            <AssetPairList/>
-                            {/*<Router>*/}
-                            {/*    <Routes>*/}
-                            {/*        <Route path='/contact' element={<AssetPairPage/>}/>*/}
-                            {/*    </Routes>*/}
-                            {/*</Router>*/}
-
-
-                        </div>
-                    </div>
-                </div>
-            </main>
-
-        )
-    }
+            <AssetPairsList/>
+        </div>
+    )
 }
 
 export default App;
