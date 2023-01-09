@@ -1,6 +1,5 @@
 import React from 'react';
 import "../styles/AssetItem.css"
-import DefaultButton from "./UI/button/DefaultButton";
 
 
 const AssetPairItem = (props) => {
