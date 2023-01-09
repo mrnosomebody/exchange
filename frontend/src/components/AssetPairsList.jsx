@@ -7,7 +7,7 @@ const AssetPairsList = (props) => {
     const [assetPairs, setAssetPairs] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:8002/api/asset-pairs/')
+        axios.get('http://localhost:8000/api/asset-pairs/')
             .then(response => {
                 setAssetPairs(response.data);
             })

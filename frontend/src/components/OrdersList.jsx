@@ -9,7 +9,7 @@ const OrdersList = (props) => {
 
     useEffect(() => {
 
-        const ws = new WebSocket("ws://" + 'localhost:8002' + "/ws/orders/");
+        const ws = new WebSocket("ws://" + 'localhost:8000' + "/ws/orders/");
 
         ws.onopen = () => {
             console.log('Websocket connection opened');
@@ -34,13 +34,9 @@ const OrdersList = (props) => {
     }, [])
 
     const createOrder = (newOrder) => {
-        console.log(newOrder)
-        // setOrders([...orders, newOrder])
         socket.send(JSON.stringify(
             newOrder
         ))
-        console.log(orders)
-
     }
 
     return (

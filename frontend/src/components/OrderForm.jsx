@@ -7,20 +7,24 @@ const OrderForm = ({create}) => {
         id: 0,
         user: 1,
         asset_pair: 1,
-        order_type: 'buy',
+        order_type: '',
         price: '',
         quantity: '',
         status: 'pending'
     })
 
-    const createOrder = (e) => {
+    const createOrderBuy = (e) => {
         e.preventDefault()
         const newOrder = {
-            'user': 1,
-            'asset_pair': 1,
-            'order_type': 'buy',
-            ...order,
-            'status': 'pending'
+            ...order, order_type: 'buy'
+        }
+        create(newOrder)
+    }
+
+    const createOrderSell = (e) => {
+        e.preventDefault()
+        const newOrder = {
+            ...order, order_type: 'sell'
         }
         create(newOrder)
     }
@@ -41,7 +45,8 @@ const OrderForm = ({create}) => {
                 pattern="[0-9]*\.?[0-9]*"
                 placeholder="quantity"
             />
-            <DefaultButton onClick={createOrder}>Bum</DefaultButton>
+            <DefaultButton onClick={createOrderBuy}>Buy</DefaultButton>
+            <DefaultButton onClick={createOrderSell}>Sell</DefaultButton>
         </div>
     );
 };
