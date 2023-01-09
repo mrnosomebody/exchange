@@ -13,6 +13,8 @@ class OrderConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
 
+        await self.send_current_orders()
+
     async def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
 
@@ -23,15 +25,7 @@ class OrderConsumer(AsyncWebsocketConsumer):
 
         # if the creation was successfull, send everyone updated orders
         if result_message.get('status_code') == 200:
-            data = await self.get_orders()
-
-            await self.channel_layer.group_send(
-                'orders_group',
-                {
-                    "type": "send_orders",
-                    "message": data
-                }
-            )
+            await self.send_current_orders()
 
     # =====================================Utility=====================================
 
@@ -63,3 +57,14 @@ class OrderConsumer(AsyncWebsocketConsumer):
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({"message": message}))
+
+    async def send_current_orders(self):
+        data = await self.get_orders()
+
+        await self.channel_layer.group_send(
+            'orders_group',
+            {
+                "type": "send_orders",
+                "message": data
+            }
+        )

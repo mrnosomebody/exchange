@@ -37,7 +37,7 @@ class UserViewSet(ModelViewSet):
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = serializers.OrderSerializer
-    permission_classes = (permissions.IsAuthenticated, OwnerOrAdminPermission)
+    # permission_classes = (permissions.IsAuthenticated, OwnerOrAdminPermission)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
