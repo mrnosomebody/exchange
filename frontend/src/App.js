@@ -1,19 +1,24 @@
-import React, {useState, useEffect, useRef} from "react"
+import React from "react"
 
 import AssetPairsList from "./components/AssetPairsList";
-import DefaultInput from "./components/UI/input/DefaultInput";
-import DefaultButton from "./components/UI/button/DefaultButton";
-import OrderForm from "./components/OrderForm";
-import OrdersList from "./components/OrdersList";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import AssetPairDetail from "./pages/AssetPairDetail";
+import Navbar from "./components/UI/Navbar/Navbar";
 
 const App = function () {
+    const assetPair = (currentPair) => {
 
+    }
 
     return (
-        <div className="App">
-            <OrdersList/>
-            <AssetPairsList/>
-        </div>
+        <BrowserRouter>
+            <Navbar></Navbar>
+            <Routes>
+                <Route path={'asset-pairs/'} element={<AssetPairsList assetPair={assetPair}/>}></Route>
+                <Route path={'asset-pairs/:assetPairId'} element={<AssetPairDetail/>}></Route>
+            </Routes>
+
+        </BrowserRouter>
     )
 }
 

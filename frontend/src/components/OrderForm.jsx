@@ -6,7 +6,7 @@ const OrderForm = ({create}) => {
     const [order, setOrder] = useState({
         id: 0,
         user: 1,
-        asset_pair: 1,
+        asset_pair: 2,
         order_type: '',
         price: '',
         quantity: '',

@@ -16,9 +16,6 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'daphne',
-    'corsheaders',
-    'channels',
-
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -28,7 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # libs
-
+    'channels',
+    'corsheaders',
     'rest_framework',
 
     # apps
@@ -72,7 +70,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'exchange.wsgi.application'
 ASGI_APPLICATION = 'exchange.asgi.application'
-
 
 CHANNEL_LAYERS = {
     'default': {
