@@ -2,7 +2,8 @@ import React, {useState, useEffect} from "react";
 import AssetPairItem from "./AssetPairItem";
 
 import axios from "axios";
-import {Link} from "react-router-dom";
+
+import '../styles/main.css'
 
 const AssetPairsList = (props) => {
     const [assetPairs, setAssetPairs] = useState([])
@@ -18,7 +19,7 @@ const AssetPairsList = (props) => {
     }, []);
 
     return (
-        <div>
+        <div className='main'>
             {assetPairs.map(assetPair => (
                 <AssetPairItem asset_pair={assetPair} key={assetPair.id}/>
             ))}
