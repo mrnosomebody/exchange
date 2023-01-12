@@ -7,7 +7,7 @@ import '../styles/AssetPageDetail.css'
 const AssetPairDetail = () => {
     const [orders, setOrders] = useState([])
     const [socket, setSocket] = useState(null)
-    const {assetPairId} = useParams()
+    const {assetPairId, assetPairName} = useParams()
 
     const handleMessage = (message) => {
         if (message.hasOwnProperty('status_code')) {
@@ -18,8 +18,7 @@ const AssetPairDetail = () => {
     }
 
     useEffect(() => {
-
-        const ws = new WebSocket("ws://" + 'localhost:8001' + "/ws/orders/");
+        const ws = new WebSocket(`ws://localhost:8001/ws/orders/${assetPairId}/`);
 
         ws.onopen = () => {
             ws.send(JSON.stringify({
@@ -30,6 +29,7 @@ const AssetPairDetail = () => {
         ws.onmessage = function (e) {
             const data = JSON.parse(e.data);
             handleMessage(data)
+
         };
 
         ws.onclose = function (e) {
@@ -49,7 +49,7 @@ const AssetPairDetail = () => {
     const createOrder = (newOrder) => {
         socket.send(JSON.stringify({
                 'type': 'create',
-                ...newOrder
+                ...newOrder, 'asset_pair': assetPairId
             }
         ))
     }
@@ -57,7 +57,7 @@ const AssetPairDetail = () => {
     return (
         <div>
             <div className="main">
-                <h1>{assetPairId}</h1>
+                <h1>{assetPairName}</h1>
                 <OrdersList orders={orders} socket={socket}/>
                 <OrderForm create={createOrder}/>
             </div>

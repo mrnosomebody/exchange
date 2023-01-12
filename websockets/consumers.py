@@ -9,16 +9,19 @@ from core.serializers import OrderSerializer
 
 
 class OrderConsumer(AsyncWebsocketConsumer):
-    groups = ('orders_group',)
-
-    def __init__(self):
-        self.asset_pair_id = None
-        super().__init__()
-
     async def connect(self):
+        self.asset_pair_id = self.scope["url_route"]["kwargs"]["asset_pair_id"]
+        self.orders_group_name = f'orders_{self.asset_pair_id}'
+
+        await self.channel_layer.group_add(self.orders_group_name, self.channel_name)
+
         await self.accept()
 
-        # await self.send_current_orders()
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
+            self.orders_group_name,
+            self.channel_name
+        )
 
     async def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
@@ -45,7 +48,6 @@ class OrderConsumer(AsyncWebsocketConsumer):
                 await self.send_current_orders()
 
         elif request_type == 'initial':
-            self.asset_pair_id = int(text_data_json.get('asset_pair_id'))
             await self.send_current_orders()
 
     # =====================================Utility=====================================
@@ -98,7 +100,7 @@ class OrderConsumer(AsyncWebsocketConsumer):
         data = await self.get_orders()
 
         await self.channel_layer.group_send(
-            'orders_group',
+            self.orders_group_name,
             {
                 "type": "send_orders",
                 "message": data
