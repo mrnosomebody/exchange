@@ -9,18 +9,23 @@ const OrderItem = (props) => {
 
     return (
         <div>
-            <hr/>
-            <div className="order">
-                <p>{props.order.id}</p>
-                <p>{props.order.price}</p>
-                <p>{props.order.quantity}</p>
-                <p>{total()}</p>
-                <p>{props.order.order_type}</p>
-                <DefaultButton onClick={() => props.cancel(props.order)}>Cancel</DefaultButton>
-            </div>
-
+            <table cellPadding="0" cellSpacing="0" border="0">
+                <tbody>
+                <tr>
+                    <td>{props.order.id}</td>
+                    <td>{props.order.created_at}</td>
+                    <td>{props.order.updated_at}</td>
+                    <td>{props.order.status}</td>
+                    <td>{props.order.order_type}</td>
+                    <td>{props.order.price}</td>
+                    <td>{total()}</td>
+                    <td>{props.currentPair}</td>
+                    <DefaultButton onClick={() => props.cancel(props.order)}>Cancel</DefaultButton></tr>
+                </tbody>
+            </table>
         </div>
     );
 };
 
 export default OrderItem;
+

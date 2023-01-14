@@ -1,5 +1,4 @@
 import json
-
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from django.shortcuts import get_object_or_404
@@ -12,8 +11,6 @@ class AssetPairsConsumer(AsyncWebsocketConsumer):
     groups = ('asset_pairs_group',)
 
     async def connect(self):
-        await self.accept()
-
         data = await self.get_asset_pairs()
 
         await self.channel_layer.group_send(
@@ -23,6 +20,7 @@ class AssetPairsConsumer(AsyncWebsocketConsumer):
                 'message': data
             }
         )
+        await self.accept()
 
     async def send_pairs(self, event):
         message = event['message']
@@ -31,12 +29,17 @@ class AssetPairsConsumer(AsyncWebsocketConsumer):
     @staticmethod
     @database_sync_to_async
     def get_asset_pairs():
-        pairs = AssetPair.objects.all()
+        pairs = AssetPair.objects.select_related('base_asset', 'quote_asset')
         serializer = AssetPairSerializer(pairs, many=True)
         return json.dumps(serializer.data)
 
 
 class OrderConsumer(AsyncWebsocketConsumer):
+    def __init__(self):
+        self.asset_pair_id = None
+        self.orders_group_name = None
+        super().__init__()
+
     async def connect(self):
         self.asset_pair_id = self.scope["url_route"]["kwargs"]["asset_pair_id"]
         self.orders_group_name = f'orders_{self.asset_pair_id}'
@@ -66,7 +69,7 @@ class OrderConsumer(AsyncWebsocketConsumer):
                 await self.send_current_orders()
 
         elif request_type == 'cancel':
-            # trying to delete an order
+            # trying to cancel an order
             result_message = await self.cancel_order(text_data_json)
             # sending a message indicating whether the cancellation was successfull
             await self.send(text_data=json.dumps(result_message))
@@ -114,7 +117,7 @@ class OrderConsumer(AsyncWebsocketConsumer):
                 'message': 'Order was cancelled'
             }
         return {
-            'status_code': 200,
+            'status_code': 404,
             'message': 'Order does not exist'
         }
 
