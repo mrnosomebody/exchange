@@ -1,7 +1,6 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Context} from "../index";
 import DefaultButton from "./UI/button/DefaultButton";
-import axios from "axios";
 
 const RegisterForm = () => {
     const [user, setUser] = useState({

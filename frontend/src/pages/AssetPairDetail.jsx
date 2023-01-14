@@ -1,13 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import OrdersList from "../components/OrdersList";
 import OrderForm from "../components/OrderForm";
 import {useParams} from "react-router-dom";
 import '../styles/main.css'
+import {Context} from "../index";
+import jwt_decode from 'jwt-decode'
+
 
 const AssetPairDetail = () => {
     const [orders, setOrders] = useState([])
     const [socket, setSocket] = useState(null)
     const {assetPairId, assetPairName} = useParams()
+    const {store} = useContext(Context)
 
     const handleMessage = (message) => {
         if (message.hasOwnProperty('status_code')) {
@@ -46,10 +50,17 @@ const AssetPairDetail = () => {
         }
     }, [assetPairId])
 
+    const get_user_id = () => {
+        const decoded = jwt_decode(localStorage.getItem('accessToken'))
+        return decoded.user_id
+    }
+
     const createOrder = (newOrder) => {
         socket.send(JSON.stringify({
                 'type': 'create',
-                ...newOrder, 'asset_pair': assetPairId
+                'user': get_user_id(),
+                'asset_pair': assetPairId,
+                ...newOrder
             }
         ))
     }
@@ -59,7 +70,10 @@ const AssetPairDetail = () => {
             <div className="main">
                 <h1>{assetPairName}</h1>
                 <OrdersList orders={orders} socket={socket}/>
-                <OrderForm create={createOrder}/>
+                {!store.isAuthenticated
+                    ? <h4>In order to create orders you have to login</h4>
+                    : <OrderForm create={createOrder}/>
+                }
             </div>
         </div>
     );

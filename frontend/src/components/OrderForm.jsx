@@ -4,7 +4,6 @@ import DefaultButton from "./UI/button/DefaultButton";
 
 const OrderForm = ({create}) => {
     const [order, setOrder] = useState({
-        user: 1,
         order_type: '',
         price: '',
         quantity: '',

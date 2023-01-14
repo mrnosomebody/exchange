@@ -1,7 +1,5 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import AssetPairItem from "./AssetPairItem";
-
-import axios from "axios";
 
 import '../styles/main.css'
 
