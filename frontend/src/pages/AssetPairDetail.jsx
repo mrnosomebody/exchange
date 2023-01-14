@@ -33,7 +33,6 @@ const AssetPairDetail = () => {
         ws.onmessage = function (e) {
             const data = JSON.parse(e.data);
             handleMessage(data)
-
         };
 
         ws.onclose = function (e) {
@@ -48,7 +47,7 @@ const AssetPairDetail = () => {
         return () => {
             ws.close()
         }
-    }, [assetPairId])
+    }, [])
 
     const get_user_id = () => {
         const decoded = jwt_decode(localStorage.getItem('accessToken'))
@@ -69,11 +68,21 @@ const AssetPairDetail = () => {
         <div>
             <div className="main">
                 <h1>{assetPairName}</h1>
-                <OrdersList orders={orders} socket={socket}/>
-                {!store.isAuthenticated
-                    ? <h4>In order to create orders you have to login</h4>
-                    : <OrderForm create={createOrder}/>
-                }
+                <OrdersList currentPair={assetPairName}
+                            orders={orders}
+                            socket={socket}
+                            shortView={true}
+                />
+            </div>
+            <OrderForm create={createOrder}/>
+
+            <h2>My orders</h2>
+            <div className="my-orders">
+                <OrdersList currentPair={assetPairName}
+                            orders={orders.filter(order => order.user === get_user_id())}
+                            socket={socket}
+                            shortView={false}
+                />
             </div>
         </div>
     );
