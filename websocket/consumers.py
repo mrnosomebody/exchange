@@ -4,8 +4,36 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from django.shortcuts import get_object_or_404
 
-from core.models import Order
-from core.serializers import OrderSerializer
+from core.models import Order, AssetPair
+from core.serializers import OrderSerializer, AssetPairSerializer
+
+
+class AssetPairsConsumer(AsyncWebsocketConsumer):
+    groups = ('asset_pairs_group',)
+
+    async def connect(self):
+        await self.accept()
+
+        data = await self.get_asset_pairs()
+
+        await self.channel_layer.group_send(
+            'asset_pairs_group',
+            {
+                'type': 'send_pairs',
+                'message': data
+            }
+        )
+
+    async def send_pairs(self, event):
+        message = event['message']
+        await self.send(text_data=json.dumps({"message": message}))
+
+    @staticmethod
+    @database_sync_to_async
+    def get_asset_pairs():
+        pairs = AssetPair.objects.all()
+        serializer = AssetPairSerializer(pairs, many=True)
+        return json.dumps(serializer.data)
 
 
 class OrderConsumer(AsyncWebsocketConsumer):

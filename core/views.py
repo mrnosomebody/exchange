@@ -29,6 +29,7 @@ class UserViewSet(ModelViewSet):
     def post(self, request, *args, **kwargs):
         self.permission_classes = (permissions.AllowAny,)
         try:
+            print('fdew')
             return super().create(request, *args, **kwargs)
         except ValidationError:
             return Response(status=status.HTTP_400_BAD_REQUEST)

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import OrdersList from "../components/OrdersList";
 import OrderForm from "../components/OrderForm";
 import {useParams} from "react-router-dom";
-import '../styles/AssetPageDetail.css'
+import '../styles/main.css'
 
 const AssetPairDetail = () => {
     const [orders, setOrders] = useState([])

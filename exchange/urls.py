@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
 
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from websockets import routing
+from websocket import routing
 
 urlpatterns = [
     path('admin/', admin.site.urls),
