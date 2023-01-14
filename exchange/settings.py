@@ -130,7 +130,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(seconds=10),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=10),
     'SIGNING_KEY': SECRET_KEY
 }
 

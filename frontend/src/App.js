@@ -1,12 +1,11 @@
-import React, {useContext, useEffect, useState} from "react"
+import React, {useContext, useEffect} from "react"
 
 import AssetPairsList from "./components/AssetPairsList";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import AssetPairDetail from "./pages/AssetPairDetail";
 import Navbar from "./components/UI/Navbar/Navbar";
 import LoginForm from "./components/LoginForm";
 import {Context} from "./index";
-import DefaultButton from "./components/UI/button/DefaultButton";
 import {observer} from "mobx-react-lite";
 
 const App = function () {
