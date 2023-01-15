@@ -16,6 +16,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'daphne',
+    'channels',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,7 +26,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # libs
-    'channels',
     'corsheaders',
     'rest_framework',
 
@@ -39,7 +39,6 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -71,7 +70,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'exchange.wsgi.application'
 ASGI_APPLICATION = 'exchange.asgi.application'
 
 CHANNEL_LAYERS = {
@@ -135,30 +133,30 @@ SIMPLE_JWT = {
 }
 
 # for tracking queries in the console
-if DEBUG:
-    LOGGING = {
-        'disable_existing_loggers': False,
-        'version': 1,
-        'handlers': {
-            'console': {
-                # logging handler that outputs log messages to terminal
-                'class': 'logging.StreamHandler',
-                'level': 'DEBUG',  # message level to be written to console
-            },
-        },
-        'loggers': {
-            '': {
-                # this sets root level logger to log debug and higher level
-                # logs to console. All other loggers inherit settings from
-                # root level logger.
-                'handlers': ['console'],
-                'level': 'DEBUG',
-                'propagate': False,  # this tells logger to send logging message
-                # to its parent (will send if set to True)
-            },
-            'django.db': {
-                # django also has database level logging
-                'level': 'DEBUG'
-            },
-        },
-    }
+# if DEBUG:
+#     LOGGING = {
+#         'disable_existing_loggers': False,
+#         'version': 1,
+#         'handlers': {
+#             'console': {
+#                 # logging handler that outputs log messages to terminal
+#                 'class': 'logging.StreamHandler',
+#                 'level': 'DEBUG',  # message level to be written to console
+#             },
+#         },
+#         'loggers': {
+#             '': {
+#                 # this sets root level logger to log debug and higher level
+#                 # logs to console. All other loggers inherit settings from
+#                 # root level logger.
+#                 'handlers': ['console'],
+#                 'level': 'DEBUG',
+#                 'propagate': False,  # this tells logger to send logging message
+#                 # to its parent (will send if set to True)
+#             },
+#             'django.db': {
+#                 # django also has database level logging
+#                 'level': 'DEBUG'
+#             },
+#         },
+#     }
