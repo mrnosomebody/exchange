@@ -3,7 +3,8 @@ import DefaultInput from "./UI/input/DefaultInput";
 import DefaultButton from "./UI/button/DefaultButton";
 import '../styles/LoginForm.css'
 
-const OrderForm = ({create}) => {
+
+const OrderForm = (props) => {
     const [order, setOrder] = useState({
         order_type: '',
         price: '',
@@ -16,7 +17,7 @@ const OrderForm = ({create}) => {
         const newOrder = {
             ...order, order_type: 'buy'
         }
-        create(newOrder)
+        props.create(newOrder)
         setOrder({
             order_type: '',
             price: '',
@@ -30,7 +31,7 @@ const OrderForm = ({create}) => {
         const newOrder = {
             ...order, order_type: 'sell'
         }
-        create(newOrder)
+        props.create(newOrder)
         setOrder({
             order_type: '',
             price: '',
@@ -46,7 +47,8 @@ const OrderForm = ({create}) => {
                 onChange={e => setOrder({...order, price: e.target.value})}
                 type="number"
                 pattern="[0-9]*\.?[0-9]*"
-                placeholder="price"
+                placeholder={props.price}
+                className="input-field"
             />
             <DefaultInput
                 value={order.quantity}
@@ -54,6 +56,7 @@ const OrderForm = ({create}) => {
                 type="number"
                 pattern="[0-9]*\.?[0-9]*"
                 placeholder="quantity"
+                className="input-field"
             />
             <DefaultButton onClick={createOrderBuy}>Buy</DefaultButton>
             <DefaultButton onClick={createOrderSell}>Sell</DefaultButton>

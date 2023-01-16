@@ -29,9 +29,7 @@ const LoginForm = () => {
                     className="input-field"
                 />
                 <DefaultButton onClick={() => store.login(email, password)}>Login</DefaultButton>
-
             </div>
-
         </div>
     );
 };
