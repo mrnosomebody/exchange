@@ -123,8 +123,8 @@ class Order(models.Model):
         on_delete=models.CASCADE
     )
     order_type = models.CharField(max_length=10, choices=ORDER_TYPE_CHOICES)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=3)
+    quantity = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

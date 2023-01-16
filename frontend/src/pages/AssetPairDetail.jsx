@@ -23,20 +23,25 @@ const AssetPairDetail = () => {
     function handleMessage(message) {
         if (message.hasOwnProperty('status_code')) {
             const code = message['status_code']
-            if (code == 200) {
+            if (code === 200) {
                 NotificationManager.success(message['message'])
+            } else if (code === 204) {
+                NotificationManager.warning(message['message'])
             } else {
                 NotificationManager.error(message['message'])
             }
         } else {
-            setOrders(JSON.parse(message['message'])
-                .filter(order => order.status !== 'cancelled')
-            )
+            setOrders(JSON.parse(message['message']))
             setBuyOrders(JSON.parse(message['message'])
-                .filter(order => order.status !== 'cancelled' && order.order_type === 'buy')
+                .filter(order =>
+                    order.status === 'pending' || order.status === 'partially_filled'
+                    && order.order_type === 'buy'
+                )
             )
             setSellOrders(JSON.parse(message['message'])
-                .filter(order => order.status !== 'cancelled' && order.order_type === 'sell')
+                .filter(order =>
+                    order.status === 'pending' || order.status === 'partially_filled'
+                    && order.order_type === 'sell')
             )
         }
     }
@@ -115,18 +120,22 @@ const AssetPairDetail = () => {
             <h1>{assetPairName} - ${price}</h1>
             <h2>Sell</h2>
             <NotificationContainer/>
-            <OrdersList currentPair={assetPairName}
-                        orders={sellOrders}
-                        socket={socket}
-                        shortView={true}
-            />
+            <div className='orders red'>
+                <OrdersList currentPair={assetPairName}
+                            orders={sellOrders}
+                            socket={socket}
+                            shortView={true}
+                />
+            </div>
             <h2>Buy</h2>
-            <OrdersList currentPair={assetPairName}
-                        orders={buyOrders}
-                        socket={socket}
-                        shortView={true}
-            />
-            <OrderForm create={createOrder}/>
+            <div className='orders green'>
+                <OrdersList currentPair={assetPairName}
+                            orders={buyOrders}
+                            socket={socket}
+                            shortView={true}
+                />
+            </div>
+            <OrderForm price={price} create={createOrder}/>
 
             <h2>My orders</h2>
             <div className="my-orders">
