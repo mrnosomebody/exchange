@@ -8,14 +8,14 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0004_delete_quote'),
+        ('api', '0004_delete_quote'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='order',
             name='asset_pair',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='asset_pair', to='core.assetpair'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='asset_pair', to='api.assetpair'),
         ),
         migrations.AlterField(
             model_name='order',
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('quantity', models.PositiveIntegerField()),
                 ('price', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('asset_pair', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.assetpair')),
+                ('asset_pair', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.assetpair')),
                 ('buyer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='buyer', to=settings.AUTH_USER_MODEL)),
                 ('seller', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='seller', to=settings.AUTH_USER_MODEL)),
             ],

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import "../styles/AssetItem.css"
 import {Link} from "react-router-dom";
 
@@ -6,6 +6,15 @@ import {Link} from "react-router-dom";
 const AssetPairItem = (props) => {
     const assetPairId = props.asset_pair.id
     const assetPairName = props.asset_pair.base_asset.symbol + '-' + props.asset_pair.quote_asset.symbol
+    const [price, setPrice] = useState(0)
+
+    useEffect(() => {
+        handlePrice(props.price)
+    }, [props.price])
+
+    const handlePrice = (price) => {
+        setPrice(Math.round(price * 100000) / 100000)
+    }
 
     return (
         <Link to={`${assetPairId}/${assetPairName}/`} className="cards">
@@ -21,7 +30,7 @@ const AssetPairItem = (props) => {
                     </h2>
                 </div>
                 <div className="right">
-                    <h4>props.price</h4>
+                    <h3>${price}</h3>
                 </div>
 
             </div>

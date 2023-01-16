@@ -10,8 +10,6 @@ const LoginForm = () => {
     const [password, setPassword] = useState('')
     const {store} = useContext(Context)
 
-
-
     return (
         <div className='main'>
             <h1>{store.isAuthenticated ? 'Authorized' : 'Please Login'}</h1>
@@ -31,6 +29,7 @@ const LoginForm = () => {
                     className="input-field"
                 />
                 <DefaultButton onClick={() => store.login(email, password)}>Login</DefaultButton>
+
             </div>
 
         </div>

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react"
+import React, {useContext, useEffect, useState} from "react"
 
 import AssetPairsList from "./components/AssetPairsList";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
@@ -7,9 +7,11 @@ import Navbar from "./components/UI/Navbar/Navbar";
 import LoginForm from "./components/LoginForm";
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
+import RegisterForm from "./components/RegisterForm";
 
 const App = function () {
     const {store} = useContext(Context)
+    const [formType, setFormType] = useState('login');
 
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
@@ -19,12 +21,16 @@ const App = function () {
 
     if (!store.isAuthenticated) {
         return (
-            <LoginForm/>
+            <div>
+                {formType === 'login' ? <LoginForm/> : <RegisterForm/>}
+                <button onClick={() => setFormType('register')}>I don't have an account</button>
+            </div>
+
         )
     }
     return (
         <BrowserRouter>
-            <Navbar></Navbar>
+            <Navbar/>
             <Routes>
                 <Route path={'asset-pairs/'} element={<AssetPairsList/>}></Route>
                 <Route path={'asset-pairs/:assetPairId/:assetPairName'} element={<AssetPairDetail/>}></Route>

@@ -3,8 +3,8 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from django.shortcuts import get_object_or_404
 
-from core.models import Order, AssetPair
-from core.serializers import OrderSerializer, AssetPairSerializer
+from api.models import Order, AssetPair
+from api.serializers import OrderSerializer, AssetPairSerializer
 
 
 class AssetPairsConsumer(AsyncWebsocketConsumer):

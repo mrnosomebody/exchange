@@ -120,7 +120,7 @@ class Order(models.Model):
     asset_pair = models.ForeignKey(
         AssetPair,
         related_name='asset_pair',
-        on_delete=models.PROTECT
+        on_delete=models.CASCADE
     )
     order_type = models.CharField(max_length=10, choices=ORDER_TYPE_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -131,12 +131,3 @@ class Order(models.Model):
 
     class Meta:
         ordering = ('-created_at',)
-
-
-class Trade(models.Model):
-    asset_pair = models.ForeignKey(AssetPair, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    buyer = models.ForeignKey(User, related_name='buyer', on_delete=models.CASCADE)
-    seller = models.ForeignKey(User, related_name='seller', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
