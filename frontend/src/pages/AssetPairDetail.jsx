@@ -1,9 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import OrdersList from "../components/OrdersList";
 import OrderForm from "../components/OrderForm";
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 import {useParams} from "react-router-dom";
+import 'react-notifications/lib/notifications.css';
+
+
 import '../styles/main.css'
-import {Context} from "../index";
+import '../styles/AssetPairDetail.css'
+
 import jwt_decode from 'jwt-decode'
 
 
@@ -12,13 +17,27 @@ const AssetPairDetail = () => {
     const [price, setPrice] = useState(0)
     const [socket, setSocket] = useState(null)
     const {assetPairId, assetPairName} = useParams()
-    const {store} = useContext(Context)
+    const [buyOrders, setBuyOrders] = useState([])
+    const [sellOrders, setSellOrders] = useState([])
 
-    const handleMessage = (message) => {
+    function handleMessage(message) {
         if (message.hasOwnProperty('status_code')) {
-            console.log(message)
+            const code = message['status_code']
+            if (code == 200) {
+                NotificationManager.success(message['message'])
+            } else {
+                NotificationManager.error(message['message'])
+            }
         } else {
-            setOrders(JSON.parse(message['message']).filter(order => order.status !== 'cancelled'))
+            setOrders(JSON.parse(message['message'])
+                .filter(order => order.status !== 'cancelled')
+            )
+            setBuyOrders(JSON.parse(message['message'])
+                .filter(order => order.status !== 'cancelled' && order.order_type === 'buy')
+            )
+            setSellOrders(JSON.parse(message['message'])
+                .filter(order => order.status !== 'cancelled' && order.order_type === 'sell')
+            )
         }
     }
 
@@ -30,7 +49,7 @@ const AssetPairDetail = () => {
     useEffect(() => {
         const tradingPair = assetPairName.replace('-', '').toLowerCase()
         const ws = new WebSocket(`ws://localhost:8001/ws/orders/${assetPairId}/`);
-        const ws_binance = new WebSocket(`wss://stream.binance.com:443/ws/${tradingPair}@kline_1s`);
+        const ws_binance = new WebSocket(`wss://stream.binance.com:443/ws/${tradingPair}@kline_5m`);
 
         ws.onopen = () => {
             ws.send(JSON.stringify({
@@ -92,16 +111,21 @@ const AssetPairDetail = () => {
     }
 
     return (
-        <div>
-            <div className="main">
-                <h1>{assetPairName} - ${price}</h1>
-                <h2>Open orders</h2>
-                <OrdersList currentPair={assetPairName}
-                            orders={orders}
-                            socket={socket}
-                            shortView={true}
-                />
-            </div>
+        <div className="main">
+            <h1>{assetPairName} - ${price}</h1>
+            <h2>Sell</h2>
+            <NotificationContainer/>
+            <OrdersList currentPair={assetPairName}
+                        orders={sellOrders}
+                        socket={socket}
+                        shortView={true}
+            />
+            <h2>Buy</h2>
+            <OrdersList currentPair={assetPairName}
+                        orders={buyOrders}
+                        socket={socket}
+                        shortView={true}
+            />
             <OrderForm create={createOrder}/>
 
             <h2>My orders</h2>

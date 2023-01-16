@@ -21,9 +21,9 @@ const OrdersList = (props) => {
                             <table className="table" cellPadding="0" cellSpacing="0" border="0">
                                 <thead>
                                 <tr>
-                                    <th>Side</th>
                                     <th>Price</th>
                                     <th>Amount</th>
+                                    <th>Total</th>
                                 </tr>
                                 </thead>
                             </table>

@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0003_alter_asset_name_alter_asset_symbol'),
+        ('api', '0003_alter_asset_name_alter_asset_symbol'),
     ]
 
     operations = [

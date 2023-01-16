@@ -18,6 +18,10 @@ table {
     width: 25%;
 }
 
+.small-table {
+    width: inherit;
+}
+
 .tbl-header {
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 10px;
@@ -39,7 +43,7 @@ table {
 }
 
 th {
-    padding: 20px 15px;
+    padding: 0 5px;
     text-align: left;
     font-weight: 500;
     font-size: 15px;
@@ -48,7 +52,7 @@ th {
 }
 
 td {
-    padding: 15px;
+    padding: 5px;
     text-align: left;
     vertical-align: middle;
     font-weight: 300;

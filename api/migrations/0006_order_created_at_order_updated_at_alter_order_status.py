@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0005_alter_order_asset_pair_alter_order_status_trade'),
+        ('api', '0005_alter_order_asset_pair_alter_order_status_trade'),
     ]
 
     operations = [

@@ -10,8 +10,8 @@ const OrderItemShort = (props) => {
             <table className="table-small" cellPadding="0" cellSpacing="0" border="0">
                 <tbody>
                 <tr>
-                    <td>{props.order.order_type}</td>
                     <td>{props.order.price}</td>
+                    <td>{props.order.quantity}</td>
                     <td>{total()}</td>
                 </tr>
                 </tbody>

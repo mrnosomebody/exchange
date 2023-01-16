@@ -45,8 +45,8 @@ class Migration(migrations.Migration):
             name='AssetPair',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('base_asset', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='base_asset', to='core.asset')),
-                ('quote_asset', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='quote_asset', to='core.asset')),
+                ('base_asset', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='base_asset', to='api.asset')),
+                ('quote_asset', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='quote_asset', to='api.asset')),
             ],
         ),
         migrations.CreateModel(
@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('bid_price', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('ask_price', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('asset_pair', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='quote', to='core.assetpair')),
+                ('asset_pair', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='quote', to='api.assetpair')),
             ],
         ),
         migrations.CreateModel(
@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
                 ('price', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('quantity', models.PositiveIntegerField()),
                 ('status', models.CharField(choices=[('executed', 'Executed'), ('rejected', 'Rejected'), ('pending', 'Pending'), ('declined', 'Declined')], max_length=20)),
-                ('asset_pair', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='core.assetpair')),
+                ('asset_pair', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='api.assetpair')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
             ],
         ),

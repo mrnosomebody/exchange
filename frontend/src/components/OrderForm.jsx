@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import DefaultInput from "./UI/input/DefaultInput";
 import DefaultButton from "./UI/button/DefaultButton";
+import '../styles/LoginForm.css'
 
 const OrderForm = ({create}) => {
     const [order, setOrder] = useState({
@@ -16,6 +17,12 @@ const OrderForm = ({create}) => {
             ...order, order_type: 'buy'
         }
         create(newOrder)
+        setOrder({
+            order_type: '',
+            price: '',
+            quantity: '',
+            status: 'pending'
+        })
     }
 
     const createOrderSell = (e) => {
@@ -24,10 +31,16 @@ const OrderForm = ({create}) => {
             ...order, order_type: 'sell'
         }
         create(newOrder)
+        setOrder({
+            order_type: '',
+            price: '',
+            quantity: '',
+            status: 'pending'
+        })
     }
 
     return (
-        <div>
+        <div className="input-control main-form">
             <DefaultInput
                 value={order.price}
                 onChange={e => setOrder({...order, price: e.target.value})}

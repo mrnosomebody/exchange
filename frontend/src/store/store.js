@@ -32,10 +32,11 @@ export default class Store {
     async register(email, first_name, last_name, password) {
         try {
             const response = await AuthService.register(email, first_name, last_name, password)
-            localStorage.setItem('accessToken', response.data.access)
-            localStorage.setItem('refreshToken', response.data.refresh)
-            this.setAuth(true)
-            this.setUser(response.data.user)
+            if (response) {
+                await this.login(email, password)
+                return response
+            }
+            return null
         } catch (e) {
             console.log(e.response?.data?.message)
         }
