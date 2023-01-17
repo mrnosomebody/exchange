@@ -39,5 +39,3 @@ const AssetPairItem = (props) => {
 };
 
 export default AssetPairItem;
-
-// onClick={() => props.pairName(props.asset_pair.base_asset.name, props.asset_pair.quote_asset.name)}

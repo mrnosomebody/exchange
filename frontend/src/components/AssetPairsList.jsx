@@ -24,7 +24,6 @@ const AssetPairsList = (props) => {
 
 
             for (const pair in d) {
-                console.log((d[pair].base_asset.symbol + d[pair].quote_asset.symbol).toLowerCase())
                 streams.push(
                     (d[pair].base_asset.symbol + d[pair].quote_asset.symbol).toLowerCase() + "@kline_1s"
                 )
@@ -72,7 +71,6 @@ const AssetPairsList = (props) => {
 
 
     return (
-
         <div className="main">
             {assetPairs.map(assetPair => {
                 const pairName = `${assetPair.base_asset.symbol}${assetPair.quote_asset.symbol}`;
