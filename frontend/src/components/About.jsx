@@ -33,7 +33,14 @@ const About = () => {
                         pairs with its' real-time prices. All of them are being got using only 1
                         websocket connection. On click on any pair you get to the trading page, where you
                         can see all open "Buy" and "Sell" orders, as well as Your orders,
-                        and real-time price. You can create an order, track it's status and cancel it
+                        and real-time price. Also I implemented kinda trading logic, so orders might be
+                        executed
+                    </h2>
+                    <br/>
+                    <h2>All prices are displayed on the trading graph as well. Graph is being rendered
+                        here using React. You can create an order, track it's status and cancel it.
+                        You get notified whether order creation/cancellation is successfull. Also you get
+                        notified when order is filled(executed)
                     </h2>
 
                 </div>
