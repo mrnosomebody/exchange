@@ -31,6 +31,7 @@ DB_USER=<your_db_user_here>
 DB_PASSWORD=<your_db_password_here>
 DB_HOST=db
 DB_PORT=5432
+ACCESS_TOKEN_LIFETIME=<token_lifetime>
 ```
 
 3. Start docker container

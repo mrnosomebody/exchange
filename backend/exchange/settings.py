@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -135,6 +135,6 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': os.environ.get('ACCESS_TOKEN_LIFETIME'),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=float(os.environ.get('ACCESS_TOKEN_LIFETIME'))),
     'SIGNING_KEY': SECRET_KEY
 }
