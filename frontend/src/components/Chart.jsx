@@ -1,5 +1,5 @@
 import {ColorType, createChart} from 'lightweight-charts';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 const Chart = (props) => {
     const chartContainerRef = useRef();

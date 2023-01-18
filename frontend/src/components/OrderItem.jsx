@@ -1,6 +1,8 @@
 import React from 'react';
-import '../styles/OrderItem.css'
+
 import DefaultButton from "./UI/button/DefaultButton";
+
+import '../styles/OrderItem.css'
 
 const OrderItem = (props) => {
     let shortCreatedAt = new Date(props.order.created_at).toLocaleString();
