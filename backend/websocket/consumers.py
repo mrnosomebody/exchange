@@ -1,6 +1,8 @@
 import json
+
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
+
 from django.shortcuts import get_object_or_404
 
 from api.models import Order, AssetPair
@@ -22,13 +24,13 @@ class AssetPairsConsumer(AsyncWebsocketConsumer):
         )
         await self.accept()
 
-    async def send_pairs(self, event):
+    async def send_pairs(self, event: dict) -> None:
         message = event['message']
         await self.send(text_data=json.dumps({"message": message}))
 
     @staticmethod
     @database_sync_to_async
-    def get_asset_pairs():
+    def get_asset_pairs() -> str:
         pairs = AssetPair.objects.select_related('base_asset', 'quote_asset')
         serializer = AssetPairSerializer(pairs, many=True)
         return json.dumps(serializer.data)
@@ -90,14 +92,14 @@ class OrderConsumer(AsyncWebsocketConsumer):
     # =====================================Utility=====================================
 
     @database_sync_to_async
-    def get_orders(self):
+    def get_orders(self) -> str:
         orders = Order.objects.filter(asset_pair=self.asset_pair_id)
         serializer = OrderSerializer(orders, many=True)
         return json.dumps(serializer.data)
 
     @staticmethod
     @database_sync_to_async
-    def create_order(data):
+    def create_order(data: dict) -> dict:
         serializer = OrderSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -112,7 +114,7 @@ class OrderConsumer(AsyncWebsocketConsumer):
 
     @staticmethod
     @database_sync_to_async
-    def cancel_order(data):
+    def cancel_order(data: dict) -> dict:
         order = get_object_or_404(Order, id=data.get('order_id'))
         if order:
             order.status = 'cancelled'
@@ -126,7 +128,7 @@ class OrderConsumer(AsyncWebsocketConsumer):
             'message': 'Order does not exist'
         }
 
-    async def send_orders(self, event):
+    async def send_orders(self, event: dict) -> None:
         message = event["message"]
 
         # Send message to WebSocket
@@ -144,7 +146,7 @@ class OrderConsumer(AsyncWebsocketConsumer):
         )
 
     @database_sync_to_async
-    def perform_trades(self):
+    def perform_trades(self) -> list:
         messages = []
         orders = Order.objects.filter(asset_pair=self.asset_pair_id)
 

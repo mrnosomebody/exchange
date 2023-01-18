@@ -86,10 +86,12 @@ a {
     color: var(--title-color);
     font-weight: 600;
 }
+
 .wide {
     width: 100%;
     justify-content: space-between;
 }
+
 @media screen and (max-width: 767px) {
     .nav__menu {
         position: fixed;

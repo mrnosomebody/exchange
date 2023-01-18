@@ -1,9 +1,10 @@
 import React, {useContext} from 'react';
 import {Link} from "react-router-dom";
+import {Context} from "../../../index";
+
+import DefaultButton from "../button/DefaultButton";
 
 import './Navbar.css'
-import {Context} from "../../../index";
-import DefaultButton from "../button/DefaultButton";
 
 const Navbar = () => {
     const {store} = useContext(Context)

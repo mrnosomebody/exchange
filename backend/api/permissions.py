@@ -1,4 +1,3 @@
-import rest_framework.permissions
 from rest_framework.permissions import BasePermission
 
 

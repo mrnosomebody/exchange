@@ -1,9 +1,11 @@
 import React, {useContext, useState} from 'react';
 import {Context} from "../index";
+import {NotificationContainer, NotificationManager} from "react-notifications";
+
 import DefaultButton from "./UI/button/DefaultButton";
+
 import '../styles/main.css'
 import '../styles/LoginForm.css'
-import {NotificationContainer, NotificationManager} from "react-notifications";
 
 const RegisterForm = () => {
     const [user, setUser] = useState({

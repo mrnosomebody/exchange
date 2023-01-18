@@ -1,7 +1,9 @@
 import React, {useContext, useState} from 'react';
-import DefaultButton from "./UI/button/DefaultButton";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
+
+import DefaultButton from "./UI/button/DefaultButton";
+
 import '../styles/main.css'
 import '../styles/LoginForm.css'
 

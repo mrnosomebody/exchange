@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -136,33 +136,3 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=10),
     'SIGNING_KEY': SECRET_KEY
 }
-
-# for tracking queries in the console
-# if DEBUG:
-#     LOGGING = {
-#         'disable_existing_loggers': False,
-#         'version': 1,
-#         'handlers': {
-#             'console': {
-#                 # logging handler that outputs log messages to terminal
-#                 'class': 'logging.StreamHandler',
-#                 'level': 'DEBUG',  # message level to be written to console
-#             },
-#         },
-#         'loggers': {
-#             '': {
-#                 # this sets root level logger to log debug and higher level
-#                 # logs to console. All other loggers inherit settings from
-#                 # root level logger.
-#                 'handlers': ['console'],
-#                 'level': 'DEBUG',
-#                 'propagate': False,  # this tells logger to send logging message
-#                 # to its parent (will send if set to True)
-#             },
-#             'django.db': {
-#                 # django also has database level logging
-#                 'level': 'DEBUG'
-#             },
-#         },
-#     }
-    

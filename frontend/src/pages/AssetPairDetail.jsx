@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
+import {useParams} from "react-router-dom";
+import jwt_decode from 'jwt-decode'
+
 import OrdersList from "../components/OrdersList";
 import OrderForm from "../components/OrderForm";
+import Chart from "../components/Chart";
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-import {useParams} from "react-router-dom";
+
 import 'react-notifications/lib/notifications.css';
-
-
 import '../styles/main.css'
 import '../styles/AssetPairDetail.css'
 
-import jwt_decode from 'jwt-decode'
-import Chart from "../components/Chart";
 import axios from "axios";
 
 
