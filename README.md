@@ -36,28 +36,9 @@ ACCESS_TOKEN_LIFETIME=<token_lifetime>
 
 3. Start docker container
    ` sudo docker-compose up --build`
-4. After the container is built and run you add the data I prepared to the database
 
-+ `sudo docker exec -it exchange_postgres psql -U postgres`
-+ `\c exchange`
-
-```
-insert into api_asset(name, symbol, type) values ('Tether', 'USDT', 'crypto');
-insert into api_asset(name, symbol, type) values ('Bitcoin', 'BTC', 'crypto');
-insert into api_asset(name, symbol, type) values ('Ethereum', 'ETH', 'crypto');
-insert into api_asset(name, symbol, type) values ('BNB', 'BNB', 'crypto');
-insert into api_asset(name, symbol, type) values ('Mina Protocol', 'MINA', 'crypto');
-insert into api_asset(name, symbol, type) values ('Cosmos', 'ATOM', 'crypto');
-insert into api_asset(name, symbol, type) values ('Polkadot', 'DOT', 'crypto');
-
-insert into api_assetpair(base_asset_id, quote_asset_id) values (2, 1);
-insert into api_assetpair(base_asset_id, quote_asset_id) values (3, 1);
-insert into api_assetpair(base_asset_id, quote_asset_id) values (4, 1);
-insert into api_assetpair(base_asset_id, quote_asset_id) values (5, 1);
-insert into api_assetpair(base_asset_id, quote_asset_id) values (6, 1);
-insert into api_assetpair(base_asset_id, quote_asset_id) values (7, 1); 
-```
-5.  That's it. Go to the `localhost:3000/`
+4. That's it. Go to the `localhost:3000/`. Database already contains some data, because I prepopulated it in custom
+   migration
 
 ### Features
 
