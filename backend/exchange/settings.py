@@ -72,6 +72,7 @@ TEMPLATES = [
 
 ASGI_APPLICATION = 'exchange.asgi.application'
 
+# this setting is for django channels production
 # CHANNEL_LAYERS = {
 #     'default': {
 #         'BACKEND': 'channels_redis.api.RedisChannelLayer',
@@ -80,6 +81,7 @@ ASGI_APPLICATION = 'exchange.asgi.application'
 #         },
 #     },
 # }
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
@@ -133,6 +135,6 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=10),
+    'ACCESS_TOKEN_LIFETIME': os.environ.get('ACCESS_TOKEN_LIFETIME'),
     'SIGNING_KEY': SECRET_KEY
 }

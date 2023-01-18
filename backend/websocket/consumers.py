@@ -12,7 +12,7 @@ from api.serializers import OrderSerializer, AssetPairSerializer
 class AssetPairsConsumer(AsyncWebsocketConsumer):
     groups = ('asset_pairs_group',)
 
-    async def connect(self):
+    async def connect(self) -> None:
         data = await self.get_asset_pairs()
 
         await self.channel_layer.group_send(
@@ -37,12 +37,12 @@ class AssetPairsConsumer(AsyncWebsocketConsumer):
 
 
 class OrderConsumer(AsyncWebsocketConsumer):
-    def __init__(self):
+    def __init__(self) -> None:
         self.asset_pair_id = None
         self.orders_group_name = None
         super().__init__()
 
-    async def connect(self):
+    async def connect(self) -> None:
         self.asset_pair_id = self.scope["url_route"]["kwargs"]["asset_pair_id"]
         self.orders_group_name = f'orders_{self.asset_pair_id}'
 
@@ -50,13 +50,13 @@ class OrderConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-    async def disconnect(self, close_code):
+    async def disconnect(self, close_code) -> None:
         await self.channel_layer.group_discard(
             self.orders_group_name,
             self.channel_name
         )
 
-    async def receive(self, text_data=None, bytes_data=None):
+    async def receive(self, text_data: str = None, bytes_data: str = None) -> None:
         text_data_json = json.loads(text_data)
         request_type = text_data_json.get('type')
 
@@ -134,7 +134,7 @@ class OrderConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(text_data=json.dumps({"message": message}))
 
-    async def send_current_orders(self):
+    async def send_current_orders(self) -> None:
         data = await self.get_orders()
 
         await self.channel_layer.group_send(

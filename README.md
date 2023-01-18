@@ -22,9 +22,7 @@ notified when order is filled(executed)
 
 1. Clone it
    `git clone https://github.com/mrnosomebody/exchange.git`
-2. Create python venv
-   `python -m venv venv`
-3. Create .env file in the project root `touch .env` containing this variables:
+2. Create .env file in the project root `touch .env` containing this variables:
 
 ```
 SECRET_KEY=<your_secret_here>
@@ -35,9 +33,9 @@ DB_HOST=db
 DB_PORT=5432
 ```
 
-4. Start docker container
+3. Start docker container
    ` sudo docker-compose up --build`
-5. After the container is built and run you add the data I prepared to the database
+4. After the container is built and run you add the data I prepared to the database
 
 + `sudo docker exec -it exchange_postgres psql -U postgres`
 + `\c exchange`
@@ -58,7 +56,7 @@ insert into api_assetpair(base_asset_id, quote_asset_id) values (5, 1);
 insert into api_assetpair(base_asset_id, quote_asset_id) values (6, 1);
 insert into api_assetpair(base_asset_id, quote_asset_id) values (7, 1); 
 ```
-6.  That's it. Go to the `localhost:3000/`
+5.  That's it. Go to the `localhost:3000/`
 
 ### Features
 
