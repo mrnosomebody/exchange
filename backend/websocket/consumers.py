@@ -86,7 +86,7 @@ class OrderConsumer(AsyncWebsocketConsumer):
         elif request_type == 'initial':
             await self.send_current_orders()
 
-        messages = await perform_trades()
+        messages = await perform_trades(self.asset_pair_id)
         for message in messages:
             await self.send(text_data=json.dumps(message))
         await self.send_current_orders()
