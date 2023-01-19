@@ -4,9 +4,9 @@ from api.models import Order
 
 
 @database_sync_to_async
-def perform_trades() -> list:
+def perform_trades(asset_pair_id: int) -> list:
     messages = []
-    orders = Order.objects.filter(asset_pair=self.asset_pair_id)
+    orders = Order.objects.filter(asset_pair=asset_pair_id)
 
     buy_orders = orders.filter(order_type='buy') \
         .exclude(status__in=['cancelled', 'filled']).order_by('-price')
