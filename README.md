@@ -50,3 +50,10 @@ ACCESS_TOKEN_LIFETIME=<token_lifetime>
 - Orders table sorting
 - JWT Authentication
 - Cancellation of pending orders
+
+## UI
+
+![alt text](./media/images/about.png)
+![alt text](./media/images/list.png)
+![alt text](./media/images/terminal_up.png)
+![alt text](./media/images/terminal_down.png)
