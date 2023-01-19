@@ -45,7 +45,7 @@ class OrderConsumer(AsyncWebsocketConsumer):
         super().__init__()
 
     async def connect(self) -> None:
-        self.asset_pair_id = self.scope["url_route"]["kwargs"]["asset_pair_id"]
+        self.asset_pair_id = int(self.scope["url_route"]["kwargs"]["asset_pair_id"])
         self.orders_group_name = f'orders_{self.asset_pair_id}'
 
         await self.channel_layer.group_add(self.orders_group_name, self.channel_name)
