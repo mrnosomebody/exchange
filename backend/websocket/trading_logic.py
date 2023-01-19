@@ -4,7 +4,7 @@ from api.models import Order
 
 
 @database_sync_to_async
-def perform_trades(self) -> list:
+def perform_trades() -> list:
     messages = []
     orders = Order.objects.filter(asset_pair=self.asset_pair_id)
 
